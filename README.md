@@ -31,9 +31,9 @@ tests/
 ## 🎯 Why install this?
 - Used for lightweight endpoint definition and reduced boilerplate while keeping performance high.
 
-✅ Endpoint POST /api/v1/partner/transactions
-Receive JSON payload, return 202 Accepted
-Validate with FluentValidation: amount > 0, currency ISO 4217, all fields required, timestamp not in the future
+✅ Endpoint: POST /api/v1/partner/transactions
+* 🔗 - Receive JSON payload, return 202 Accepted
+* 🔗 - Validate with FluentValidation: amount > 0, currency ISO 4217, all fields required, timestamp not in the future
 
 ✅ Mock Partner Verification API (MockPartnerVerificationController)
 Same project, endpoint GET /api/v1/mock/partners/{id}/verify
@@ -62,8 +62,8 @@ ApiKeyAuthenticationMiddleware bảo mật endpoint
 Serilog structured logging + rolling files
 Swagger UI with API Key authentication
 
-### ✨ Tutorial
-# Step1: You need to install two things.:
+# ✨ Tutorial
+### Step1: You need to install two things.:
 1. .NET 8 SDK
 Go to https://dotnet.microsoft.com/download/dotnet/8.0 → download the SDK (not the Runtime) that is compatible with your OS (Windows/Mac/Linux).
 After installation is complete, check:
