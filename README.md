@@ -62,7 +62,7 @@ ApiKeyAuthenticationMiddleware bảo mật endpoint
 Serilog structured logging + rolling files
 Swagger UI with API Key authentication
 
-# Tutorial
+### ✨ Tutorial
 # Step1: You need to install two things.:
 1. .NET 8 SDK
 Go to https://dotnet.microsoft.com/download/dotnet/8.0 → download the SDK (not the Runtime) that is compatible with your OS (Windows/Mac/Linux).
@@ -195,7 +195,7 @@ dotnet: command not found:
 Port 5000 bị chiếm:
 → Đổi port trong docker-compose.yml: "5001:8080" rồi truy cập http://localhost:5001/swagger.
 
-4. Noted:
+### ⚠️ Noted
 - Nếu dùng Docker Compose, Swagger chỉ bật ở môi trường Development. Kiểm tra biến môi trường trong docker-compose.yml:
 yamlenvironment:
 - ASPNETCORE_ENVIRONMENT=Development   # phải là Development mới có Swagger
