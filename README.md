@@ -209,16 +209,22 @@ dotnet: command not found:
 # ⚠️ Noted
 ### If using Docker Compose, Swagger is only enabled in the Development environment. Check the environment variables in docker-compose.yml:
 
+```bash
 environment:
   - ASPNETCORE_ENVIRONMENT=Development   # Only the Development team has Swagger.
+```
 
 ### Currently, the file is in Production mode, so Swagger is disabled. Please fix it:
   
 * Open the docker-compose.yml file and find the line:
-- ASPNETCORE_ENVIRONMENT=Production
+```bash
+  - ASPNETCORE_ENVIRONMENT=Production
+```
 
 * Change to:
-- ASPNETCORE_ENVIRONMENT=Development
+```bash
+  - ASPNETCORE_ENVIRONMENT=Development
+```
   
 * Then run back:
 
