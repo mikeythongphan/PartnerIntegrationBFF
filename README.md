@@ -195,4 +195,18 @@ dotnet: command not found:
 Port 5000 bị chiếm:
 → Đổi port trong docker-compose.yml: "5001:8080" rồi truy cập http://localhost:5001/swagger.
 
-4. 
+4. Noted:
+- Nếu dùng Docker Compose, Swagger chỉ bật ở môi trường Development. Kiểm tra biến môi trường trong docker-compose.yml:
+yamlenvironment:
+- ASPNETCORE_ENVIRONMENT=Development   # phải là Development mới có Swagger
+
+Hiện tại file đang để Production nên Swagger bị tắt. Sửa lại:
+bash# Mở file docker-compose.yml, tìm dòng:
+- ASPNETCORE_ENVIRONMENT=Production
+
+# Đổi thành:
+- ASPNETCORE_ENVIRONMENT=Development
+
+Rồi chạy lại:
+bashdocker compose down
+docker compose up --build
