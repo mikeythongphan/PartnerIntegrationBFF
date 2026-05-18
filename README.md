@@ -236,7 +236,7 @@ docker compose down
 
 docker compose up --build
 
-# 📚 Improvement:
+# 📚 Additional & Improvement:
 ### Next step can add the following:
 * Implement database
 * Idempotent Transaction
