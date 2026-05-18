@@ -231,7 +231,17 @@ environment:
 ```
   
 * Then run back:
-
+  
 docker compose down
 
 docker compose up --build
+
+# 📚 Improvement:
+### Next step can add the following:
+* Implement database
+* Idempotent Transaction
+* Distributed tracing
+* OpenTelemetry exporter
+* CI/CD pipeline
+* Kubernetes manifests
+* Metrics dashboards
