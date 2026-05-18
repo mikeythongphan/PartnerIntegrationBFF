@@ -24,6 +24,7 @@ src/
 * #️⃣ - PartnerIntegration.Application -> Contains the specific business logic of the application (Use Cases).
 * #️⃣ - PartnerIntegration.Domain -> Contains Controllers, DTOs, and configurations related to the web framework.
 * #️⃣ - PartnerIntegration.Infrastructure -> Contains custom Entities, Value Objects, Domain Events, and Exceptions.
+
 tests/
 * #️⃣ - PartnerIntegration.Tests -> Contains Test Functions.
 
