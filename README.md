@@ -20,12 +20,12 @@
 - This keeps business logic independent from transport and infrastructure concerns, improves testability, and allows implementation details like RabbitMQ or HTTP clients to be swapped without affecting core logic.
 
 src/
- #️⃣ - PartnerIntegration.API -> Contains specific settings for the interfaces defined in Application
- #️⃣ - PartnerIntegration.Application -> Contains the specific business logic of the application (Use Cases).
- #️⃣ - PartnerIntegration.Domain -> Contains Controllers, DTOs, and configurations related to the web framework.
- #️⃣ - PartnerIntegration.Infrastructure -> Contains custom Entities, Value Objects, Domain Events, and Exceptions.
+#️⃣ - PartnerIntegration.API -> Contains specific settings for the interfaces defined in Application
+#️⃣ - PartnerIntegration.Application -> Contains the specific business logic of the application (Use Cases).
+#️⃣ - PartnerIntegration.Domain -> Contains Controllers, DTOs, and configurations related to the web framework.
+#️⃣ - PartnerIntegration.Infrastructure -> Contains custom Entities, Value Objects, Domain Events, and Exceptions.
 tests/
- #️⃣ - PartnerIntegration.Tests -> Contains Test Functions.
+#️⃣ - PartnerIntegration.Tests -> Contains Test Functions.
 
 ## 🎯 Why install this?
 - Used for lightweight endpoint definition and reduced boilerplate while keeping performance high.
