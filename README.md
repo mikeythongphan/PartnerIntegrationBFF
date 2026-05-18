@@ -36,34 +36,33 @@ tests/
 * 🔗 - Validate with FluentValidation: amount > 0, currency ISO 4217, all fields required, timestamp not in the future
 
 ✅ Mock Partner Verification API (MockPartnerVerificationController)
-Same project, endpoint GET /api/v1/mock/partners/{id}/verify
-Random 30% throws TimeoutException, 70% returns valid response
-4 mock partners available (P-1001, P-1002, P-1003 inactive, P-9999)
+* 🔗 - Same project, endpoint GET /api/v1/mock/partners/{id}/verify
+* 🔗 - Random 30% throws TimeoutException, 70% returns valid response
+* 🔗 - 4 mock partners available (P-1001, P-1002, P-1003 inactive, P-9999)
 
 ✅ Resilience with Polly
-Per-attempt timeout: 5 seconds
-Retry: 3 times, exponential backoff + jitter
-Circuit Breaker: opens after 50% failure rate in 30 seconds
+* 🔗 - Per-attempt timeout: 5 seconds
+* 🔗 - Retry: 3 times, exponential backoff + jitter
+* 🔗 - Circuit Breaker: opens after 50% failure rate in 30 seconds
 
 ✅ RabbitMQ Messaging
-IMessagePublisher interface + RabbitMqMessagePublisher implementation
-Durable queue, persistent messages, auto-recovery
+* 🔗 - IMessagePublisher interface + RabbitMqMessagePublisher implementation
+* 🔗 - Durable queue, persistent messages, auto-recovery
 
-✅ Unit Tests (xUnit + Moq + FluentAssertions)
-Validator tests: 15+ test cases
-TransactionService tests: happy path, validation failed, partner failed, broker failed
-Middleware tests: all error scenarios
-PartnerVerificationService tests
+✅ Unit Tests: (xUnit + Moq + FluentAssertions)
+* 🔗 - Validator tests: 15+ test cases
+* 🔗 - TransactionService tests: happy path, validation failed, partner failed, broker failed
+* 🔗 - Middleware tests: all error scenarios
+* 🔗 - PartnerVerificationService tests
 
-✅ Bonus items
-docker-compose.yml spin up API + RabbitMQ
-GlobalExceptionHandlerMiddleware format error nhất quán
-ApiKeyAuthenticationMiddleware bảo mật endpoint
-Serilog structured logging + rolling files
-Swagger UI with API Key authentication
+✅ Bonus items: docker-compose.yml spin up API + RabbitMQ
+* 🔗 - GlobalExceptionHandlerMiddleware format error nhất quán
+* 🔗 - ApiKeyAuthenticationMiddleware bảo mật endpoint
+* 🔗 - Serilog structured logging + rolling files
+* 🔗 - Swagger UI with API Key authentication
 
 # ✨ Tutorial
-### Step1: You need to install two things.:
+### Step1: You need to install two things:
 1. .NET 8 SDK
 Go to https://dotnet.microsoft.com/download/dotnet/8.0 → download the SDK (not the Runtime) that is compatible with your OS (Windows/Mac/Linux).
 After installation is complete, check:
@@ -76,16 +75,16 @@ Check:
 bashdocker --version
 docker compose version
 
-Bước 1 — Giải nén source code
-bash# Giải nén file zip vừa download
-# Windows: chuột phải → Extract All
-# Mac/Linux:
-unzip PartnerIntegrationBFF.zip
+## Bước 1 — Giải nén source code
 
-# Vào thư mục project
+### Giải nén file zip vừa download
+Windows: chuột phải → Extract All
+Mac/Linux: unzip PartnerIntegrationBFF.zip
+
+### Vào thư mục project
 cd PartnerIntegrationBFF
 
-# Bước 2 — Chọn cách chạy
+## Bước 2 — Chọn cách chạy
 Bạn có 2 lựa chọn:
 
 ✅ Cách A: Docker Compose (Dễ nhất — 1 lệnh)
