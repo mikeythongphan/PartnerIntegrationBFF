@@ -24,7 +24,6 @@ src/
  #️⃣ - PartnerIntegration.Application -> Contains the specific business logic of the application (Use Cases).
  #️⃣ - PartnerIntegration.Domain -> Contains Controllers, DTOs, and configurations related to the web framework.
  #️⃣ - PartnerIntegration.Infrastructure -> Contains custom Entities, Value Objects, Domain Events, and Exceptions.
-
 tests/
  #️⃣ - PartnerIntegration.Tests -> Contains Test Functions.
 
@@ -66,84 +65,84 @@ tests/
 1. .NET 8 SDK
 Go to https://dotnet.microsoft.com/download/dotnet/8.0 → download the SDK (not the Runtime) that is compatible with your OS (Windows/Mac/Linux).
 After installation is complete, check:
-bashdotnet --version
+dotnet --version
 -> Phải hiện: 8.0.xxx
 
 2. Docker Desktop
 Go to https://www.docker.com/products/docker-desktop → download and install.
 Check:
-bashdocker --version
+docker --version
 docker compose version
 
-## Step 2 — Giải nén source code
+## Step 2 — Unzip the source code.
 
-### Giải nén file zip vừa download
-Windows: chuột phải → Extract All
+### Unzip the downloaded zip file.
+Windows: Right-click → Extract All
 Mac/Linux: unzip PartnerIntegrationBFF.zip
 
-### Vào thư mục project
+### Go to the project folder.
 cd PartnerIntegrationBFF
 
-## Step 3 — Chọn cách chạy
-### Bạn có 2 lựa chọn:
+## Step 3 — Choose how to run
+### You have two options:
 
-✅ Cách A: Docker Compose (Dễ nhất — 1 lệnh)
-* Cách này tự động spin up cả API lẫn RabbitMQ, không cần cài thêm gì.
-*  Đứng trong thư mục PartnerIntegrationBFF
+✅ Method A: Docker Compose (Easiest — 1 command)
+* This method automatically spins up both the API and RabbitMQ, no additional installation required.
+* Located in the PartnerIntegrationBFF folder.
 docker compose up --build
 
-* Đợi khoảng 1-2 phút lần đầu (build Docker image). Khi thấy log như này là thành công:
+* Wait about 1-2 minutes the first time (building the Docker image). When you see logs like this, it's successful:
 
 partner-rabbitmq  | Server startup complete
 partner-integration-api | [HH:mm:ss INF] Now listening on: http://[::]:8080
 
-* Truy cập:
+* Access:
 Swagger UI: http://localhost:5000/swagger
 RabbitMQ Dashboard: http://localhost:15672 (login: guest / guest)
 
-* Để dừng:
+* To stop:
 Ctrl+C
 
-* Hoặc xóa hoàn toàn:
+* Or delete it completely:
 docker compose down -v
 
-✅ Cách B: Chạy Local (Cần .NET SDK)
-* Bước B1 — Khởi động RabbitMQ bằng Docker:
+✅ Method B: Run Local (Requires .NET SDK)
+* Step B1 — Start RabbitMQ using Docker:
 docker run -d --name rabbitmq \
   -p 5672:5672 \
   -p 15672:15672 \
   rabbitmq:3.13-management-alpine
 
-* Bước B2 — Restore packages:
+* Step B2 — Restore packages:
 dotnet restore
 
-* Bước B3 — Chạy API:
+* Step B3 — Chạy API:
 cd src/PartnerIntegration.API
 dotnet run
 
-* Thấy log này là OK:
+* This log looks OK:
 [INF] Now listening on: http://localhost:5000
 
-* Truy cập:
+* Access:
 Swagger UI: http://localhost:5000/swagger
 
-## Step 4 — Chạy Tests
-Mở terminal mới, đứng tại thư mục gốc PartnerIntegrationBFF:
+## Step 4 — Run Tests
+* Open a new terminal and navigate to the root directory PartnerIntegrationBFF:
 dotnet test
 
-Kết quả mong đợi:
+* Expected results:
 Passed! - Failed: 0, Passed: 35+, Skipped: 0
 
-Muốn xem coverage:
+* To view coverage:
 dotnet test --collect:"XPlat Code Coverage"
 
-## Step 5 — Test API thực tế
-* Mở Swagger tại http://localhost:5000/swagger
-🔒 Quan trọng: Click nút Authorize (khóa 🔒) ở góc phải → nhập API key:
+## Step 5 — Test API reality
+* Open Swagger in http://localhost:5000/swagger
+🔒 Important: Click the Authorize button (key 🔒) in the upper right corner → enter the API key:
 ### test-api-key-12345
 
-* 🛠️ - Test 1: Submit transaction thành công
-* Dùng endpoint POST /api/v1/partner/transactions, body:
+* 🛠️ - Test 1: Submit transaction success
+* Use endpoint POST /api/v1/partner/transactions, body:
 json{
   "partnerId": "P-1001",
   "transactionReference": "TXN-99823",
@@ -152,19 +151,19 @@ json{
   "timestamp": "2024-05-10T14:30:00Z"
 }
 
-→ Kết quả mong đợi 202 Accepted:
+→ Expected result 202 Accepted:
 json{
   "transactionId": "xxxxxxxx-...",
   "status": "Accepted",
   "message": "Transaction has been validated and queued for processing."
 }
 
-Lưu ý: Mock API có 30% xác suất timeout, Polly sẽ tự retry. Nếu vẫn fail thì gọi lại.
-Copy transactionId từ response, dùng cho Test 2.
+### Note: Mock APIs have a 30% chance of timeout; Polly will automatically retry. If it still fails, it will call again.
+* Copy the transactionId from the response and use it for Test 2.
 
-* 🛠️ - Test 2: Query trạng thái transaction
-* Dùng endpoint GET /api/v1/partner/transactions/{transactionId} → paste ID vừa copy.
-→ Kết quả 200 OK:
+* 🛠️ - Test 2: Query transaction status
+* Use endpoint GET /api/v1/partner/transactions/{transactionId} → paste the copied ID.
+→ The result is 200 OK:
 json{
   "transactionId": "...",
   "partnerId": "P-1001",
@@ -179,9 +178,9 @@ json{
   "currency": "INVALID",
   "timestamp": "2024-05-10T14:30:00Z"
 }
-→ Kết quả 422 Unprocessable Entity với danh sách lỗi chi tiết.
+→ The result is 422 Unprocessable Entity with a detailed list of errors.
 
-* 🛠️ - Test 4: Partner không tồn tại
+* 🛠️ - Test 4: Partner does not exist.
 json{
   "partnerId": "P-UNKNOWN",
   "transactionReference": "TXN-001",
@@ -189,35 +188,38 @@ json{
   "currency": "USD",
   "timestamp": "2024-05-10T14:30:00Z"
 }
-→ Kết quả 502 Bad Gateway.
+→ The result is a 502 Bad Gateway.
 
-* Xem message trong RabbitMQ:
-Vào http://localhost:15672 → login guest/guest → tab Queues → click queue partner-transactions → Get messages để xem các transaction đã được enqueue.
+* View messages in RabbitMQ:
+→ Go to http://localhost:15672 → log in guest/guest → Queues tab → click queue partner-transactions → Get messages to view the transactions that have been enqueued.
 
-* Lỗi thường gặp:
-"Connection refused" khi start API:
-→ RabbitMQ chưa ready. Đợi thêm 10-15 giây rồi thử lại.
+* Common Errors:
+"Connection refused" when starting API:
+→ RabbitMQ is not ready. Wait 10-15 seconds and try again.
+
 * Docker Compose build fail:
-→ Đảm bảo Docker Desktop đang chạy (icon Docker xuất hiện ở taskbar/menubar).
+→ Ensure Docker Desktop is running (Docker icon appears in taskbar/menubar).
+
 dotnet: command not found:
-→ Cài lại .NET SDK và restart terminal.
-* Port 5000 bị chiếm:
-→ Đổi port trong docker-compose.yml: "5001:8080" rồi truy cập http://localhost:5001/swagger.
+→ Reinstall .NET SDK and restart terminal.
+
+* Port 5000 is occupied:
+→ Change the port in docker-compose.yml to "5001:8080" and then access http://localhost:5001/swagger.
 
 # ⚠️ Noted
-### Nếu dùng Docker Compose, Swagger chỉ bật ở môi trường Development. Kiểm tra biến môi trường trong docker-compose.yml:
+### If using Docker Compose, Swagger is only enabled in the Development environment. Check the environment variables in docker-compose.yml:
 
 environment:
-  - ASPNETCORE_ENVIRONMENT=Development   # phải là Development mới có Swagger
+  - ASPNETCORE_ENVIRONMENT=Development   # Only the Development team has Swagger.
 
-### Hiện tại file đang để Production nên Swagger bị tắt. Sửa lại:
+### Currently, the file is in Production mode, so Swagger is disabled. Please fix it:
   
-* Mở file docker-compose.yml, tìm dòng:
+* Open the docker-compose.yml file and find the line:
 - ASPNETCORE_ENVIRONMENT=Production
 
-* Đổi thành:
+* Change to:
 - ASPNETCORE_ENVIRONMENT=Development
   
-* Rồi chạy lại:
+* Then run back:
 docker compose down
 docker compose up --build
