@@ -20,13 +20,13 @@
 - This keeps business logic independent from transport and infrastructure concerns, improves testability, and allows implementation details like RabbitMQ or HTTP clients to be swapped without affecting core logic.
 
 src/
- ├── Partner.Bff.Api
- ├── Partner.Bff.Application
- ├── Partner.Bff.Domain
- └── Partner.Bff.Infrastructure
+ #️⃣ - PartnerIntegration.API -> Contains specific settings for the interfaces defined in Application
+ #️⃣ - PartnerIntegration.Application -> Contains the specific business logic of the application (Use Cases).
+ #️⃣ - PartnerIntegration.Domain -> Contains Controllers, DTOs, and configurations related to the web framework.
+ #️⃣ - PartnerIntegration.Infrastructure -> Contains custom Entities, Value Objects, Domain Events, and Exceptions.
 
 tests/
- └── Partner.Bff.UnitTests
+ #️⃣ - PartnerIntegration.Tests -> Contains Test Functions.
 
 ## 🎯 Why install this?
 - Used for lightweight endpoint definition and reduced boilerplate while keeping performance high.
@@ -94,7 +94,7 @@ docker compose up --build
 
 * Đợi khoảng 1-2 phút lần đầu (build Docker image). Khi thấy log như này là thành công:
 
-partner-rabbitmq      | Server startup complete
+partner-rabbitmq  | Server startup complete
 partner-integration-api | [HH:mm:ss INF] Now listening on: http://[::]:8080
 
 * Truy cập:
@@ -138,12 +138,12 @@ Muốn xem coverage:
 dotnet test --collect:"XPlat Code Coverage"
 
 ## Step 5 — Test API thực tế
-Mở Swagger tại http://localhost:5000/swagger
+* Mở Swagger tại http://localhost:5000/swagger
 🔒 Quan trọng: Click nút Authorize (khóa 🔒) ở góc phải → nhập API key:
 ### test-api-key-12345
 
-Test 1: Submit transaction thành công
-Dùng endpoint POST /api/v1/partner/transactions, body:
+* 🛠️ - Test 1: Submit transaction thành công
+* Dùng endpoint POST /api/v1/partner/transactions, body:
 json{
   "partnerId": "P-1001",
   "transactionReference": "TXN-99823",
@@ -152,7 +152,7 @@ json{
   "timestamp": "2024-05-10T14:30:00Z"
 }
 
-Kết quả mong đợi 202 Accepted:
+→ Kết quả mong đợi 202 Accepted:
 json{
   "transactionId": "xxxxxxxx-...",
   "status": "Accepted",
@@ -160,19 +160,18 @@ json{
 }
 
 Lưu ý: Mock API có 30% xác suất timeout, Polly sẽ tự retry. Nếu vẫn fail thì gọi lại.
-
 Copy transactionId từ response, dùng cho Test 2.
 
-Test 2: Query trạng thái transaction
-Dùng endpoint GET /api/v1/partner/transactions/{transactionId} → paste ID vừa copy.
-Kết quả 200 OK:
+* 🛠️ - Test 2: Query trạng thái transaction
+* Dùng endpoint GET /api/v1/partner/transactions/{transactionId} → paste ID vừa copy.
+→ Kết quả 200 OK:
 json{
   "transactionId": "...",
   "partnerId": "P-1001",
   "status": "Queued"
 }
 
-Test 3: Validation error
+* 🛠️ - Test 3: Validation error
 json{
   "partnerId": "",
   "transactionReference": "TXN-001",
@@ -180,9 +179,9 @@ json{
   "currency": "INVALID",
   "timestamp": "2024-05-10T14:30:00Z"
 }
-Kết quả 422 Unprocessable Entity với danh sách lỗi chi tiết.
+→ Kết quả 422 Unprocessable Entity với danh sách lỗi chi tiết.
 
-Test 4: Partner không tồn tại
+* 🛠️ - Test 4: Partner không tồn tại
 json{
   "partnerId": "P-UNKNOWN",
   "transactionReference": "TXN-001",
@@ -190,12 +189,12 @@ json{
   "currency": "USD",
   "timestamp": "2024-05-10T14:30:00Z"
 }
-Kết quả 502 Bad Gateway.
+→ Kết quả 502 Bad Gateway.
 
 * Xem message trong RabbitMQ:
 Vào http://localhost:15672 → login guest/guest → tab Queues → click queue partner-transactions → Get messages để xem các transaction đã được enqueue.
 
-* Lỗi thường gặp
+* Lỗi thường gặp:
 "Connection refused" khi start API:
 → RabbitMQ chưa ready. Đợi thêm 10-15 giây rồi thử lại.
 * Docker Compose build fail:
@@ -207,11 +206,12 @@ dotnet: command not found:
 
 # ⚠️ Noted
 ### Nếu dùng Docker Compose, Swagger chỉ bật ở môi trường Development. Kiểm tra biến môi trường trong docker-compose.yml:
-yamlenvironment:
 
-- ASPNETCORE_ENVIRONMENT=Development   # phải là Development mới có Swagger
+environment:
+  - ASPNETCORE_ENVIRONMENT=Development   # phải là Development mới có Swagger
 
-* Hiện tại file đang để Production nên Swagger bị tắt. Sửa lại:
+### Hiện tại file đang để Production nên Swagger bị tắt. Sửa lại:
+  
 * Mở file docker-compose.yml, tìm dòng:
 - ASPNETCORE_ENVIRONMENT=Production
 
