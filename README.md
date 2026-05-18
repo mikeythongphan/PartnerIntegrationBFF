@@ -28,7 +28,7 @@ src/
 tests/
  └── Partner.Bff.UnitTests
 
-# Detail
+## 🎯 Why install this?
 - Used for lightweight endpoint definition and reduced boilerplate while keeping performance high.
 
 ✅ Endpoint POST /api/v1/partner/transactions
