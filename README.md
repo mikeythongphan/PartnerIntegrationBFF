@@ -140,7 +140,10 @@ dotnet test --collect:"XPlat Code Coverage"
 ## Step 5 — Test API reality
 * Open Swagger in http://localhost:5000/swagger
 🔒 Important: Click the Authorize button (key 🔒) in the upper right corner → enter the API key:
-### test-api-key-12345
+
+```bash
+test-api-key-12345
+```
 
 * 🛠️ - Test 1: Submit transaction success
 * Use endpoint POST /api/v1/partner/transactions, body:
